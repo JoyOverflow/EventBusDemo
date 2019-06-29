@@ -14,6 +14,8 @@ public class ResultActivity extends AppCompatActivity {
 
         //发送非粘性事件并关闭此活动（事件发布者Publisher）
         EventBus.getDefault().post(new Message("欢迎大家访问我的博客!"));
+        //发布粘性事件
+        EventBus.getDefault().postSticky(new Message("祝大家新年快乐！"));
         finish();
     }
 }
