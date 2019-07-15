@@ -1,11 +1,21 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <!--暗黑色的动作条-->
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
+    </style>
+    <style name="anim_menu_bottombar_bottom" parent="android:Animation" mce_bogus="1">
+        <item name="android:windowEnterAnimation">@anim/menu_bottombar_in</item>
+        <item name="android:windowExitAnimation">@anim/menu_bottombar_out</item>
+    </style>
+    <style name="anim_menu_bottombar_right" parent="android:Animation" mce_bogus="1">
+        <item name="android:windowEnterAnimation">@anim/menu_bottombar_in_right</item>
+        <item name="android:windowExitAnimation">@anim/menu_bottombar_out_right</item>
+    </style>
 </resources>
