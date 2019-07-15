@@ -15,9 +15,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
+
+import ouyj.hyena.com.mediatheme.R;
 
 /**
  * Created by yanglinghui on 2016-06-07.
