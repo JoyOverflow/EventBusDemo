@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ContentModule</string>
+    <string name="first_name">进程内通信</string>
+</resources>

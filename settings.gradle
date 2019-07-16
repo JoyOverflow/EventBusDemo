@@ -1,1 +1,1 @@
-include ':app', ':MediaTheme', ':LearnPinyin'
+include ':app', ':MediaTheme', ':LearnPinyin', ':ContentModule2', ':ContentModule'
