@@ -16,6 +16,17 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".AutoRequeryActivity">
+        </activity>
+        <activity android:name=".AsyncSwapActivity">
+        </activity>
+
+        <provider
+            android:name=".data.PersonProvider"
+            android:authorities="ouyj.hyena.com.cursorsample.provider"
+            android:enabled="true"
+            android:exported="false">
+        </provider>
     </application>
 
 </manifest>
