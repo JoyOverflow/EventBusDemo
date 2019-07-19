@@ -15,6 +15,8 @@ final public class Person implements BaseColumns {
 
     public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.gudon.persons";
     public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.gudon.persons";
+
+    //成员字段
     public static final String NAME = "name";
     public static final String AGE = "age";
 }
