@@ -15,7 +15,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".AutoRequeryActivity">
+        <activity android:name=".ContactActivity">
         </activity>
         <activity android:name=".AsyncSwapActivity">
         </activity>

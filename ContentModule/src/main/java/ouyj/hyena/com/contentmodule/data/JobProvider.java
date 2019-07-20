@@ -20,20 +20,42 @@ public class JobProvider extends ContentProvider {
     public static final int User_Code = 1;
     public static final int Job_Code = 2;
 
-
-    //在ContentProvider类中注册URI
-    private static final UriMatcher mMatcher;
-    static{
-        mMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        mMatcher.addURI(AUTOHORITY,"user", User_Code);
-        mMatcher.addURI(AUTOHORITY, "job", Job_Code);
-    }
-
     /**
      * 构造方法
      */
-    public JobProvider() {
+    public JobProvider() { }
+
+
+    //在ContentProvider类中注册URI
+    private static final UriMatcher matcher;
+    static{
+        //常量NO_MATCH表示不匹配任何路径的返回码
+        matcher = new UriMatcher(UriMatcher.NO_MATCH);
+        //如果匹配"content://ouyj.hyena.com.job/user"路径，则返回匹配码User_Code
+        matcher.addURI(AUTOHORITY,"user", User_Code);
+        //如果匹配"content://ouyj.hyena.com.job/job"路径，则返回匹配码Job_Code
+        matcher.addURI(AUTOHORITY, "job", Job_Code);
     }
+    /**
+     * 根据URI匹配来获取对应的表名
+     * @param uri
+     * @return
+     */
+    private String getTableName(Uri uri){
+        String tableName = null;
+        switch (matcher.match(uri)) {
+            case User_Code:
+                tableName = DBHelper.USER_TABLE;
+                break;
+            case Job_Code:
+                tableName = DBHelper.JOB_TABLE;
+                break;
+        }
+        return tableName;
+    }
+
+
+
 
 
     @Override
@@ -55,23 +77,7 @@ public class JobProvider extends ContentProvider {
         context.getContentResolver().notifyChange(uri, null);
         return uri;
     }
-    /**
-     * 根据URI匹配来获取对应的表名
-     * @param uri
-     * @return
-     */
-    private String getTableName(Uri uri){
-        String tableName = null;
-        switch (mMatcher.match(uri)) {
-            case User_Code:
-                tableName = DBHelper.USER_TABLE;
-                break;
-            case Job_Code:
-                tableName = DBHelper.JOB_TABLE;
-                break;
-        }
-        return tableName;
-    }
+
 
     /**
      * 初始化数据库连接（运行于主线程，因此不要做耗时操作）

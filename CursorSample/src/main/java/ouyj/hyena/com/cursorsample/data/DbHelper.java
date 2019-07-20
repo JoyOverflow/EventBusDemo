@@ -10,7 +10,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "persons.db";
     private static final int DB_VERSION = 1;
     //数据表名称
-    private static final String TABLE_NAME = "persons";
+    public static final String TABLE_NAME = "persons";
 
 
     /**
