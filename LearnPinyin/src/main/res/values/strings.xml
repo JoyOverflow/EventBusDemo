@@ -14,6 +14,9 @@
     <string name="title_activity_alphabets_table">七彩拼音</string>
     <string name="title_activity_activity_alphabets_table">ActivityAlphabetsTable</string>
 
+    <string name="btn_clear">清除练习记录</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

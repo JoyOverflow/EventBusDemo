@@ -6,7 +6,7 @@ android:background="@color/black">
 <Button
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text = "清除练习记录"
+    android:text = "@string/btn_clear"
     android:id = "@+id/clear_excise_record"
     android:textColor="@color/black"
     android:layout_gravity="center"

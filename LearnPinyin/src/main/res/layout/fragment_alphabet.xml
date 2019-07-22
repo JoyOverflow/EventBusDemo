@@ -12,39 +12,41 @@
                   android:orientation="vertical"
                   android:paddingLeft="@dimen/activity_horizontal_margin"
                   android:paddingRight="@dimen/activity_horizontal_margin"
-                  android:paddingBottom="5sp"
+                  android:paddingBottom="5dp"
                   android:gravity="center_vertical"
                   android:layout_above="@+id/divider">
+
         <GridView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id = "@+id/alphabet_table"
-            android:columnWidth="30sp"
+            android:id = "@+id/alphabetView"
+            android:columnWidth="30dp"
             android:numColumns="3"
             android:gravity="center"
-            android:minWidth="30sp">
+            android:minWidth="30dp">
+
         </GridView>
         <ImageView android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:src = "@drawable/go"
-                   android:id = "@+id/go"
-                   android:padding="32sp"
+                   android:id = "@+id/imgGo"
+                   android:padding="32dp"
                    android:layout_gravity="center_horizontal"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src = "@drawable/settings"
-            android:id = "@+id/settings"
+            android:id = "@+id/imgSetting"
             android:layout_gravity="right"/>
     </LinearLayout>
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1sp"
-        android:background="@color/lightgray"
-        android:id = "@+id/divider"
-        android:layout_above="@+id/options"
-        android:paddingTop="2sp"/>
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/lightgray"
+          android:id = "@+id/divider"
+          android:layout_above="@+id/options"
+          android:paddingTop="2dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,13 +56,18 @@
         android:background="@color/dimgray">
         <ImageView android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:src="@drawable/bpm"
-                   android:id = "@+id/image_bpm"
+                   android:src="@drawable/shengmu_2"
+                   android:id = "@+id/imgShengMu"
                    android:layout_weight="1"/>
         <ImageView android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:src="@drawable/aoe_white"
-                   android:id = "@+id/image_aoe"
+                   android:src="@drawable/zheng_1"
+                   android:id = "@+id/imgZheng"
+                   android:layout_weight="1"/>
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/yunmu_1"
+                   android:id = "@+id/imgYunMu"
                    android:layout_weight="1"/>
     </LinearLayout>
 </RelativeLayout>

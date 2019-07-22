@@ -1,5 +1,6 @@
 package ouyj.hyena.com.learnpinyin;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,7 +23,7 @@ import android.widget.TextView;
 
 import java.io.IOException;
 
-import ouyj.hyena.com.learnpinyin.data.AdapterAlphabetTable;
+import ouyj.hyena.com.learnpinyin.data.AlphabetAdapter;
 import ouyj.hyena.com.learnpinyin.data.PinYinContract;
 
 /**
@@ -31,119 +32,204 @@ import ouyj.hyena.com.learnpinyin.data.PinYinContract;
 public class AlphabetFragment extends Fragment {
 
     View rootView;
-    GridView alphabetTable;
-    ImageView bpmImageView,aoeImageView,goView,settingsView;
-    AdapterAlphabetTable mbpmAdapter,maoeAdapter;
-    private final String LOG_TAG = this.getClass().getSimpleName();
-    String bpm = "b,p,m,f,d,t,n,l,g,k,h,j,q,x,r,z,c,s,y,w,zh,ch,sh";
-    String aoe = "a,o,e,i,u,ü,ai,ei,ui,ao,ou,iu,ie,üe,er,an,en,un,in,ün,ang,eng,ing,ong";
-    String[] bpmArray,aoeArray;
-    String CONSTANTS_RES_PREFIX = "android.resource://com.jinshu.xuzhi.learnpinyin/";
-    final MediaPlayer mp  = new MediaPlayer();
-    PopupWindow mPopupWindow;
+    ImageView imgShengMu,imgYunMu,imgZheng,goView,settingsView;
+
+    private final String TAG = this.getClass().getSimpleName();
+
+    String CONSTANTS_RES_PREFIX = "android.resource://ouyj.hyena.com.learnpinyin/";
     Button clearExciseRecord;
 
+    GridView gridView;
+    final MediaPlayer mediaPlayer;
+    PopupWindow popupWin;
 
+    //自定义适配器
+    AlphabetAdapter shengMuAdapter,yunMuAdapter,zhengAdapter;
+    String[] shengMuList,yunMuList,zhengList;
+    String shengMu = "b,p,m,f,d,t,n,l,g,k,h,j,q,x,r,z,c,s,y,w,zh,ch,sh";
+    String yunMu = "a,o,e,i,u,ü,ai,ei,ui,ao,ou,iu,ie,üe,er,an,en,un,in,ün,ang,eng,ing,ong";
+    String zheng="zhi,chi,shi,ri,zi,ci,si,yi,wu,yu,ye,yue,yuan,yin,yun,ying";
+
+    /**
+     * 构造方法
+     */
     public AlphabetFragment() {
-        bpmArray = bpm.split(",");
-        aoeArray = aoe.split(",");
+        shengMuList = shengMu.split(",");
+        yunMuList = yunMu.split(",");
+        zhengList = zheng.split(",");
+        mediaPlayer = new MediaPlayer();
     }
-
-
-
+    /**
+     * 片段创建视图
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        //获取到根视图
         rootView = inflater.inflate(R.layout.fragment_alphabet, container, false);
 
-        alphabetTable = (GridView)rootView.findViewById(R.id.alphabet_table);
-        bpmImageView = (ImageView)rootView.findViewById(R.id.image_bpm);
-        aoeImageView = (ImageView)rootView.findViewById(R.id.image_aoe);
-        settingsView = (ImageView)rootView.findViewById(R.id.settings);
-        goView = (ImageView)rootView.findViewById(R.id.go);
-        mbpmAdapter = new AdapterAlphabetTable(getActivity(),bpmArray);
-        maoeAdapter = new AdapterAlphabetTable(getActivity(),aoeArray);
-        alphabetTable.setAdapter(mbpmAdapter);
+        //查找视图引用
+        settingsView = rootView.findViewById(R.id.imgSetting);
+        goView = rootView.findViewById(R.id.imgGo);
+
+        imgShengMu = rootView.findViewById(R.id.imgShengMu);
+        imgZheng = rootView.findViewById(R.id.imgZheng);
+        imgYunMu = rootView.findViewById(R.id.imgYunMu);
 
 
+        //创建适配器
+        shengMuAdapter = new AlphabetAdapter(getActivity(),shengMuList);
+        yunMuAdapter = new AlphabetAdapter(getActivity(),yunMuList);
+        zhengAdapter = new AlphabetAdapter(getActivity(),zhengList);
+
+        //为格子视图设置适配器
+        gridView = rootView.findViewById(R.id.alphabetView);
+        gridView.setAdapter(shengMuAdapter);
+
+
+        //要弹出的窗体布局
         View popupView = getActivity().getLayoutInflater().inflate(R.layout.popup_window_menu, null);
+        popupWin = new PopupWindow(
+                popupView,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                true
+        );
+        popupWin.setTouchable(true);
+        popupWin.setOutsideTouchable(true);
+        popupWin.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        popupWin.getContentView().setFocusableInTouchMode(true);
+        popupWin.getContentView().setFocusable(true);
+        popupWin.setAnimationStyle(R.style.anim_menu_bottombar_bottom);
 
-        mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
-        mPopupWindow.setTouchable(true);
-        mPopupWindow.setOutsideTouchable(true);
-        mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
-        mPopupWindow.getContentView().setFocusableInTouchMode(true);
-        mPopupWindow.getContentView().setFocusable(true);
-        mPopupWindow.setAnimationStyle(R.style.anim_menu_bottombar_bottom);
 
-        clearExciseRecord = (Button)popupView.findViewById(R.id.clear_excise_record);
+        //清除练习记录的按钮事件
+        clearExciseRecord = popupView.findViewById(R.id.clear_excise_record);
         clearExciseRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContentValues value = new ContentValues();
+                //更改字段值
                 String newStatus = PinYinContract.NO;
+                ContentValues value = new ContentValues();
                 value.put(PinYinContract.Character.COLUMN_DONE, newStatus);
-                getActivity().getContentResolver().update(PinYinContract.Character.CONTENT_URI, value, null, null);
+
+                //更改数据表记录
+                //content://ouyj.hyena.com.learn/Characters
+                //Log.d(TAG, PinYinContract.Character.CONTENT_URI.toString());
+                ContentResolver resolver = getActivity().getContentResolver();
+                resolver.update(
+                        PinYinContract.Character.CONTENT_URI,
+                        value,
+                        null,
+                        null
+                );
             }
         });
-        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            public void onPrepared(MediaPlayer mp) {
-                mp.start();
-            }
-        });
-        alphabetTable.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+        //格子视图的项点击事件
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 TextView currentAlphabet = (TextView) view;
                 String alpha = currentAlphabet.getText().toString().replace("ü", "v");
                 try {
-                    mp.reset();
-                    int alphaId = getActivity().getResources().getIdentifier(alpha, "raw", "com.jinshu.xuzhi.learnpinyin");
+                    //恢复到空闲状态
+                    mediaPlayer.reset();
+
+                    //加载Raw目录下的资源
+                    int alphaId = getActivity().getResources().getIdentifier(
+                            alpha,
+                            "raw",
+                            "ouyj.hyena.com.learnpinyin"
+                    );
                     String uriString = CONSTANTS_RES_PREFIX + Integer.toString(alphaId);
-                    mp.setDataSource(getActivity(), Uri.parse(uriString));
-                    mp.prepareAsync();
+                    mediaPlayer.setDataSource(getActivity(), Uri.parse(uriString));
+                    mediaPlayer.prepareAsync();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
-        bpmImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alphabetTable.setAdapter(mbpmAdapter);
-                bpmImageView.setImageResource(R.drawable.bpm);
-                aoeImageView.setImageResource(R.drawable.aoe_white);
+        //音频资源已缓存到内存
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
             }
         });
-        aoeImageView.setOnClickListener(new View.OnClickListener() {
+
+
+
+
+        //点击后切换数据源和图像
+        imgShengMu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alphabetTable.setAdapter(maoeAdapter);
-                bpmImageView.setImageResource(R.drawable.bpm_white);
-                aoeImageView.setImageResource(R.drawable.aoe);
+                //切换数据源
+                gridView.setAdapter(shengMuAdapter);
+                //更改图像资源
+                imgShengMu.setImageResource(R.drawable.shengmu_2);
+                imgYunMu.setImageResource(R.drawable.yunmu_1);
+                imgZheng.setImageResource(R.drawable.zheng_1);
             }
         });
+        imgYunMu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //切换数据源
+                gridView.setAdapter(yunMuAdapter);
+                //更改图像资源
+                imgShengMu.setImageResource(R.drawable.shengmu_1);
+                imgYunMu.setImageResource(R.drawable.yunmu_2);
+                imgZheng.setImageResource(R.drawable.zheng_1);
+            }
+        });
+        imgZheng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gridView.setAdapter(zhengAdapter);
+                //更改图像资源
+                imgShengMu.setImageResource(R.drawable.shengmu_1);
+                imgYunMu.setImageResource(R.drawable.yunmu_1);
+                imgZheng.setImageResource(R.drawable.zheng_2);
+            }
+        });
+
+
+        //定向到指定活动
         goView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.putExtra(PinYinContract.Character.COLUMN_DONE, "");/*仅作为一个标记，不需要值*/
+                intent.putExtra(PinYinContract.Character.COLUMN_DONE, "");
                 startActivity(intent);
             }
         });
+        //弹窗（设定在指定视图的下方）
         settingsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPopupWindow.showAsDropDown(goView);
+                popupWin.showAsDropDown(goView);
             }
         });
+        //返回视图
         return rootView;
     }
+
+
+    /**
+     * 片段撤销
+     */
     @Override
     public void onDestroy() {
-        mp.release();
-        Log.v(LOG_TAG, "onDestroy");
+        mediaPlayer.release();
+        Log.v(TAG, "onDestroy");
         super.onDestroy();
     }
 }

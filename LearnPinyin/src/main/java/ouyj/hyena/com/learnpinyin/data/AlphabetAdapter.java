@@ -11,34 +11,42 @@ import android.widget.TextView;
 import ouyj.hyena.com.learnpinyin.R;
 
 /**
- * Created by xuzhi on 2016/8/18.
+ * 自定义适配器类
  */
-public class AdapterAlphabetTable extends BaseAdapter {
+public class AlphabetAdapter extends BaseAdapter {
 
-    private final String LOG_TAG = this.getClass().getSimpleName();
-    private Context mContext ;
-    private String[] mAlphabetsArray;
+    private final String TAG = this.getClass().getSimpleName();
+    private Context context ;
+    private String[] array;
 
-    public AdapterAlphabetTable(Context context, String[] alphabetsArray) {
+    /**
+     * 构造方法（传入上下文和数据源）
+     * @param context
+     * @param array
+     */
+    public AlphabetAdapter(Context context, String[] array) {
         super();
-        mContext = context;
-        mAlphabetsArray = alphabetsArray;
+        this.context = context;
+        this.array = array;
     }
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView textView;
         if (convertView == null) {
-            textView = new TextView(mContext); // 实例化ImageView的对象
+            textView = new TextView(context); // 实例化ImageView的对象
             //imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE); // 设置缩放方式
             //textView.setPadding(0, 3, 0, 3); // 设置ImageView的内边距
         } else {
             textView = (TextView) convertView;
         }
 
-        textView.setText(mAlphabetsArray[position]);
+        //设置文本视图
+        textView.setText(array[position]);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
         textView.setTypeface(null, Typeface.BOLD);
-        switch (mAlphabetsArray[position]) {
+        switch (array[position]) {
             case "a":
             case "o":
             case "e":
@@ -46,9 +54,8 @@ public class AdapterAlphabetTable extends BaseAdapter {
             case "u":
             case "ü":
             case "iu":
-
             case "en":
-                textView.setTextColor(mContext.getResources().getColor(R.color.violet));
+                textView.setTextColor(context.getResources().getColor(R.color.violet));
                 break;
             case "b":
             case "h":
@@ -58,9 +65,8 @@ public class AdapterAlphabetTable extends BaseAdapter {
             case "ai":
             case "in":
             case "üe":
-
             case "ong":
-                textView.setTextColor(mContext.getResources().getColor(R.color.deepskyblue));
+                textView.setTextColor(context.getResources().getColor(R.color.deepskyblue));
                 break;
             case "c":
             case "p":
@@ -68,9 +74,8 @@ public class AdapterAlphabetTable extends BaseAdapter {
             case "n":
             case "sh":
             case "ei":
-
             case "un":
-                textView.setTextColor(mContext.getResources().getColor(R.color.lime));
+                textView.setTextColor(context.getResources().getColor(R.color.lime));
                 break;
             case "d":
             case "l":
@@ -79,9 +84,8 @@ public class AdapterAlphabetTable extends BaseAdapter {
             case "ch":
             case "ui":
             case "ün":
-
             case "ie":
-                textView.setTextColor(mContext.getResources().getColor(R.color.yellow));
+                textView.setTextColor(context.getResources().getColor(R.color.yellow));
                 break;
             case "m":
             case "s":
@@ -89,12 +93,9 @@ public class AdapterAlphabetTable extends BaseAdapter {
             case "f":
             case "ao":
             case "ing":
-
             case "ang":
-                textView.setTextColor(mContext.getResources().getColor(R.color.orange));
+                textView.setTextColor(context.getResources().getColor(R.color.orange));
                 break;
-
-
             case "g":
             case "j":
             case "k":
@@ -102,49 +103,30 @@ public class AdapterAlphabetTable extends BaseAdapter {
             case "ou":
             case "eng":
             case "er":
-
             case "an":
-                textView.setTextColor(mContext.getResources().getColor(R.color.white));
+                textView.setTextColor(context.getResources().getColor(R.color.white));
                 break;
-
             default:
-                textView.setTextColor(mContext.getResources().getColor(R.color.white));
+                textView.setTextColor(context.getResources().getColor(R.color.white));
         }
-
         textView.setBackgroundResource(R.drawable.grid_item_border);
         textView.setGravity(0x11);
         return textView;
     }
-    /*
-     * 功能：获得当前选项的ID
-     *
-     * @see android.widget.Adapter#getItemId(int)
-     */
+
+
+
+
     @Override
     public long getItemId(int position) {
-        //System.out.println("getItemId = " + position);
         return position;
     }
-
-    /*
-     * 功能：获得当前选项
-     *
-     * @see android.widget.Adapter#getItem(int)
-     */
     @Override
     public Object getItem(int position) {
         return position;
     }
-
-    /*
-     * 获得数量
-     *
-     * @see android.widget.Adapter#getCount()
-     */
     @Override
     public int getCount() {
-
-        return mAlphabetsArray.length;/*26字母 + 4 声调*/
+        return array.length;/*26字母 + 4 声调*/
     }
-
 }

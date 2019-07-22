@@ -7,9 +7,10 @@
     </style>
 
 
-    <!--暗黑色的动作条-->
+    <!--暗黑色动作条（设置整个应用）-->
     <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
     </style>
+    <!--弹窗的动画样式-->
     <style name="anim_menu_bottombar_bottom" parent="android:Animation" mce_bogus="1">
         <item name="android:windowEnterAnimation">@anim/menu_bottombar_in</item>
         <item name="android:windowExitAnimation">@anim/menu_bottombar_out</item>

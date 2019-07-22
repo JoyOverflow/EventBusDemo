@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--活动通过帧布局加载指定的片段-->
-<FrameLayout
+<!--活动布局通过fragment加载指定的片段-->
+<fragment
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,4 +9,4 @@
     android:id="@+id/fragment"
     android:name="ouyj.hyena.com.learnpinyin.AlphabetFragment"
     tools:context=".AlphabetActivity">
-</FrameLayout>
+</fragment>

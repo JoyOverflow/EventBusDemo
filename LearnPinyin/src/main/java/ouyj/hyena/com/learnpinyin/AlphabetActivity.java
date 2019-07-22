@@ -13,9 +13,8 @@ public class AlphabetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alphabet);
 
-        //获取动作条对象
+        //获取动作条对象（并隐藏）
         ActionBar actionBar = getSupportActionBar();
-        //隐藏动作条
         //actionBar.hide();
         //设置动作条上的图标
         actionBar.setLogo(R.mipmap.ic_launcher);
@@ -24,7 +23,7 @@ public class AlphabetActivity extends AppCompatActivity {
     }
 
     /**
-     * 显示活动菜单
+     * 显示活动选项菜单
      * @param menu
      * @return
      */

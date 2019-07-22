@@ -10,39 +10,61 @@ import android.util.Log;
  */
 public class PinYinContract {
 
-    private final String LOG_TAG = this.getClass().getSimpleName();
-    // The "Content authority" is a name for the entire content provider, similar to the
-    // relationship between a domain name and its website.  A convenient string to use for the
-    // content authority is the package name for the app, which is guaranteed to be unique on the
-    // device.
-    public static final String CONTENT_AUTHORITY = "com.jinshu.xuzhi.learnpinyin";
-
-    // Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
-    // the content provider.
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-
-    public static final String PATH_CHARACTER = Character.TABLE_NAME;
-    public static final String YES = "yes";
+    //字段值
     public static final String NO = "no";
+    //URI路径
+    public static final String CONTENT_AUTHORITY = "ouyj.hyena.com.learnpinyin.provider";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    //数据表名称
+    public static final String PATH_CHARACTER = Character.TABLE_NAME;
+
+
+
+
+
+    private final String LOG_TAG = this.getClass().getSimpleName();
+
+
+
+    public static final String YES = "yes";
+
     public static final String FINISHED = "finished";
 
+
+
+
     public static final class Character implements BaseColumns {
-        private final String LOG_TAG = this.getClass().getSimpleName();
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_CHARACTER).build();
 
-        public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CHARACTER;
-        public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CHARACTER;
-
-
+        //表名称
         public static final String TABLE_NAME = "Characters";
+        //字段名称
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_NAME = "name";
-        public static final String COLUMN_PRONUNCIATION = "pronunciation";
         public static final String COLUMN_DONE = "done";
+        public static final String COLUMN_PRONUNCIATION = "pronunciation";
         public static final String COLUMN_DISPLAY_SEQUENCE = "display_sequence";
+        //指定数据表的URI访问路径
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_CHARACTER).build();
+
+
+
+
+
+
+
+
+        private final String LOG_TAG = this.getClass().getSimpleName();
+
+        //多条记录（集合）
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CHARACTER;
+        //单条记录
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CHARACTER;
+
+
+
+
+
+
 
         public static final String PATH_CHARACTER_ID_LIST = "idList";
         public static final String PATH_CHARACTER_NAME_LIST = "nameList";
