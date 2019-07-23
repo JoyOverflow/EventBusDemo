@@ -76,12 +76,11 @@ public class AlphabetFragment extends Fragment {
         settingsView = rootView.findViewById(R.id.imgSetting);
         goView = rootView.findViewById(R.id.imgGo);
 
+        //声韵母和整体音节切换按钮
         imgShengMu = rootView.findViewById(R.id.imgShengMu);
         imgZheng = rootView.findViewById(R.id.imgZheng);
         imgYunMu = rootView.findViewById(R.id.imgYunMu);
-
-
-        //创建适配器
+        //创建适配器类（派生自BaseAdapter）
         shengMuAdapter = new AlphabetAdapter(getActivity(),shengMuList);
         yunMuAdapter = new AlphabetAdapter(getActivity(),yunMuList);
         zhengAdapter = new AlphabetAdapter(getActivity(),zhengList);
@@ -132,18 +131,19 @@ public class AlphabetFragment extends Fragment {
         });
 
 
-        //格子视图的项点击事件
+        //设置网格视图的项点击事件
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                TextView currentAlphabet = (TextView) view;
-                String alpha = currentAlphabet.getText().toString().replace("ü", "v");
+                //得到音频的文件名称
+                TextView name = (TextView) view;
+                String alpha = name.getText().toString().replace("ü", "v");
                 try {
                     //恢复到空闲状态
                     mediaPlayer.reset();
 
-                    //加载Raw目录下的资源
+                    //加载Raw目录下的资源并播放
                     int alphaId = getActivity().getResources().getIdentifier(
                             alpha,
                             "raw",

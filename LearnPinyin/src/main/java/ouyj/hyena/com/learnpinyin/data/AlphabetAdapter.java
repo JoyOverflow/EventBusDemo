@@ -15,10 +15,8 @@ import ouyj.hyena.com.learnpinyin.R;
  */
 public class AlphabetAdapter extends BaseAdapter {
 
-    private final String TAG = this.getClass().getSimpleName();
-    private Context context ;
+    private Context context;
     private String[] array;
-
     /**
      * 构造方法（传入上下文和数据源）
      * @param context
@@ -29,23 +27,29 @@ public class AlphabetAdapter extends BaseAdapter {
         this.context = context;
         this.array = array;
     }
-
-
+    /**
+     * 每一列表项的视图
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView textView;
+        TextView txtView;
         if (convertView == null) {
-            textView = new TextView(context); // 实例化ImageView的对象
-            //imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE); // 设置缩放方式
-            //textView.setPadding(0, 3, 0, 3); // 设置ImageView的内边距
-        } else {
-            textView = (TextView) convertView;
+            //为null时加载项布局样式
+            txtView = new TextView(context);
         }
+        else
+            txtView = (TextView) convertView;
 
         //设置文本视图
-        textView.setText(array[position]);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-        textView.setTypeface(null, Typeface.BOLD);
+        txtView.setText(array[position]);
+        txtView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+        txtView.setTypeface(null, Typeface.BOLD);
+        txtView.setPadding(2,2,2,2);
+
         switch (array[position]) {
             case "a":
             case "o":
@@ -55,7 +59,7 @@ public class AlphabetAdapter extends BaseAdapter {
             case "ü":
             case "iu":
             case "en":
-                textView.setTextColor(context.getResources().getColor(R.color.violet));
+                txtView.setTextColor(context.getResources().getColor(R.color.violet));
                 break;
             case "b":
             case "h":
@@ -66,7 +70,7 @@ public class AlphabetAdapter extends BaseAdapter {
             case "in":
             case "üe":
             case "ong":
-                textView.setTextColor(context.getResources().getColor(R.color.deepskyblue));
+                txtView.setTextColor(context.getResources().getColor(R.color.deepskyblue));
                 break;
             case "c":
             case "p":
@@ -75,7 +79,7 @@ public class AlphabetAdapter extends BaseAdapter {
             case "sh":
             case "ei":
             case "un":
-                textView.setTextColor(context.getResources().getColor(R.color.lime));
+                txtView.setTextColor(context.getResources().getColor(R.color.lime));
                 break;
             case "d":
             case "l":
@@ -85,7 +89,7 @@ public class AlphabetAdapter extends BaseAdapter {
             case "ui":
             case "ün":
             case "ie":
-                textView.setTextColor(context.getResources().getColor(R.color.yellow));
+                txtView.setTextColor(context.getResources().getColor(R.color.yellow));
                 break;
             case "m":
             case "s":
@@ -94,7 +98,7 @@ public class AlphabetAdapter extends BaseAdapter {
             case "ao":
             case "ing":
             case "ang":
-                textView.setTextColor(context.getResources().getColor(R.color.orange));
+                txtView.setTextColor(context.getResources().getColor(R.color.orange));
                 break;
             case "g":
             case "j":
@@ -104,18 +108,15 @@ public class AlphabetAdapter extends BaseAdapter {
             case "eng":
             case "er":
             case "an":
-                textView.setTextColor(context.getResources().getColor(R.color.white));
+                txtView.setTextColor(context.getResources().getColor(R.color.aqua));
                 break;
             default:
-                textView.setTextColor(context.getResources().getColor(R.color.white));
+                txtView.setTextColor(context.getResources().getColor(R.color.white));
         }
-        textView.setBackgroundResource(R.drawable.grid_item_border);
-        textView.setGravity(0x11);
-        return textView;
+        txtView.setBackgroundResource(R.drawable.grid_item_border);
+        txtView.setGravity(0x11);
+        return txtView;
     }
-
-
-
 
     @Override
     public long getItemId(int position) {
@@ -123,10 +124,10 @@ public class AlphabetAdapter extends BaseAdapter {
     }
     @Override
     public Object getItem(int position) {
-        return position;
+        return null;
     }
     @Override
     public int getCount() {
-        return array.length;/*26字母 + 4 声调*/
+        return array.length;
     }
 }

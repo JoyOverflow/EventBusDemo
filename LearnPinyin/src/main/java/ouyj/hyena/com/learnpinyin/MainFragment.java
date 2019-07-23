@@ -35,6 +35,8 @@ import ouyj.hyena.com.learnpinyin.data.AlphabetAdapter;
 import ouyj.hyena.com.learnpinyin.data.CharacterInfo;
 import ouyj.hyena.com.learnpinyin.data.PinYinContract;
 
+import static ouyj.hyena.com.learnpinyin.MainActivity.TAG;
+
 /**
  * 主片段类（实现LoaderCallbacks<Cursor>接口）
  */
@@ -49,13 +51,13 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
     //适配器对象
     private AlphabetAdapter adapter;
-    //输入的字母数
+    //当前的汉字（汉字串的索引）
     private int index = 0;
     //汉字上方的进度栏
     private LinearLayout btnProgress;
 
     private TextView character,pinyin;
-    private ImageView imgDelete,btnClose,btnPinYin;
+    private ImageView imgDelete,btnClose,btnPinYin,btnRead;
 
 
     static MainFragment mFragment;
@@ -98,6 +100,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
         btnClose = rootView.findViewById(R.id.btnClose);
         btnPinYin= rootView.findViewById(R.id.btnPinYin);
+        btnRead= rootView.findViewById(R.id.btnRead);
 
         btnProgress = rootView.findViewById(R.id.btnProgress);
         character = rootView.findViewById(R.id.txtCharacter);
@@ -125,7 +128,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
                 String tmp=String.format("目前已输入的拼音文本：%s；当前被点击的字母：%s",
                         currentPinyin,content);
-                Log.d(MainActivity.TAG, tmp);
+                Log.d(TAG, tmp);
 
 
                 //当ü遇到j,q,x,y时要去掉两点
@@ -158,15 +161,18 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
                 //取出该汉字的拼音并判断
                 if (currentPinyin.equals(characters[index].pinyin)) {
-                    /*show character card */
-                    Bundle bundle = new Bundle();
-                    bundle.putString("character", characters[index].character);
-                    bundle.putString("pinyin", characters[index].pinyin);
 
                     //加载弹出片段
                     CardFragment fragment = new CardFragment();
+
+                    //附加数据
+                    Bundle bundle = new Bundle();
+                    bundle.putString("character", characters[index].character);
+                    bundle.putString("pinyin", characters[index].pinyin);
                     fragment.setArguments(bundle);
+
                     fragment.show(getFragmentManager(), "CardFragment");
+
                     //并播放该汉字的声音（位于Assets目录）
                     try {
                         mp.reset();
@@ -185,8 +191,8 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                     }
 
 
-                    //update progress bar
-                    ImageView progressGrid = (ImageView) rootView.findViewWithTag(index);
+                    //更新进度栏
+                    ImageView progressGrid = rootView.findViewWithTag(index);
                     progressGrid.setImageResource(R.drawable.grid_green);
 
                     /*update character learned status*/
@@ -259,8 +265,41 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 startActivity(intent);
             }
         });
+        btnRead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CharacterInfo c=characters[index];
+                readCharacter(c.sounds);
+            }
+        });
         return rootView;
     }
+
+    /**
+     * 弹出汉字卡片并发声
+     * @param sound
+     */
+    private void readCharacter(String sound){
+        //并播放该汉字的声音（位于Assets目录）
+        try {
+            mp.reset();
+            AssetFileDescriptor file = getActivity().getAssets().openFd(
+                    "characters/" + sound + ".mp3"
+            );
+            mp.setDataSource(
+                    file.getFileDescriptor(),
+                    file.getStartOffset(),
+                    file.getLength()
+            );
+            file.close();
+            mp.prepareAsync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
     @Override
     public void onResume()
     {
@@ -307,7 +346,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         String sortOrder = PinYinContract.Character.COLUMN_ID + " Asc Limit 10";
         Uri uri = PinYinContract.Character.buildCharacterUriByDone(PinYinContract.NO);
 
-        Log.d(MainActivity.TAG, "onCreateLoader！");
+        Log.d(TAG, "onCreateLoader！");
         return new CursorLoader(getActivity(),
                 uri,
                 null,
@@ -320,10 +359,10 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         if ((data == null)||(data.getCount() == 0)) {
-            Log.d(MainActivity.TAG, "onLoadFinished！==0");
+            Log.d(TAG, "onLoadFinished！==0");
             return;
         }
-        Log.d(MainActivity.TAG, "onLoadFinished！>0");
+        Log.d(TAG, "onLoadFinished！>0");
 
         //查找出数据记录数
         int cursorCount = data.getCount();
