@@ -1,4 +1,4 @@
-package ouyj.hyena.com.fourline;
+package ouyj.hyena.com.searchviewsample;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("ouyj.hyena.com.fourline", appContext.getPackageName());
+        assertEquals("ouyj.hyena.com.searchviewsample", appContext.getPackageName());
     }
 }

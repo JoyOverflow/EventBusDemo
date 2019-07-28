@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        applicationId "ouyj.hyena.com.fourline"
+        applicationId "ouyj.hyena.com.searchviewsample"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
