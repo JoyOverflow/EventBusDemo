@@ -1,4 +1,4 @@
-package ouyj.hyena.com.fourline;
+package ouyj.hyena.com.searchviewlayout;
 
 import org.junit.Test;
 
