@@ -16,6 +16,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".FlexibleActivity">
+        </activity>
+        <activity android:name=".SimpleActivity">
+        </activity>
+        <activity android:name=".MaterialActivity">
+        </activity>
+        <activity android:name=".IOExampleActivity">
+        </activity>
+        <activity android:name=".BehaviorActivity">
+        </activity>
     </application>
 
 </manifest>
