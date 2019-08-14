@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                         searchtollbar.setVisibility(View.GONE);
                 }
             });
-
             item_search = search_menu.findItem(R.id.action_filter_search);
 
 
@@ -73,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
              */
+
+
+
+
 
 
 
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         // Enable/Disable Submit button in the keyboard
         searchView.setSubmitButtonEnabled(false);
 
-        // Change search close button image
+        // Change search_tool close button image
         ImageView closeButton = (ImageView) searchView.findViewById(R.id.search_close_btn);
         closeButton.setImageResource(R.drawable.ic_close);
 
@@ -164,16 +167,18 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_status:
                 Toast.makeText(this, "Home Status Click", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.action_settings:
+                Toast.makeText(this, "Home Settings Click", Toast.LENGTH_SHORT).show();
+                return true;
             case R.id.action_search:
+
+                //搜索栏可见
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     circleReveal(R.id.searchtoolbar,1,true,true);
                 else
                     searchtollbar.setVisibility(View.VISIBLE);
 
                 item_search.expandActionView();
-                return true;
-            case R.id.action_settings:
-                Toast.makeText(this, "Home Settings Click", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

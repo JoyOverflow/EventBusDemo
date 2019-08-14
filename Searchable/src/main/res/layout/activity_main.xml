@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     android:id="@+id/activity_search_view_check"
     tools:context=".MainActivity">
-    <include layout="@layout/toolbar"/>
-    <include layout="@layout/search_toolbar" android:visibility="gone"/>
+
+    <!--工具栏-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        app:titleTextColor="@color/colorTextPrimary"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"/>
+    <!--工具栏-->
+    <include layout="@layout/search_tool" android:visibility="gone"/>
 </RelativeLayout>
