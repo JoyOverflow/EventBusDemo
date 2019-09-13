@@ -8,10 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ContentModule" />
-            <option value="$PROJECT_DIR$/ContentModule2" />
             <option value="$PROJECT_DIR$/CoordinatorExample" />
-            <option value="$PROJECT_DIR$/CursorSample" />
             <option value="$PROJECT_DIR$/LearnPinyin" />
             <option value="$PROJECT_DIR$/MaterialSearch" />
             <option value="$PROJECT_DIR$/MaterialView" />
