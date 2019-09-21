@@ -1,1 +1,1 @@
-include ':app', ':MediaTheme', ':LearnPinyin',   ':MaterialSearch', ':MaterialView', ':SearchViewLayout', ':SearchViewSample', ':CoordinatorExample'
+include ':app', ':MediaTheme', ':LearnPinyin',   ':MaterialSearch', ':MaterialView', ':SearchViewLayout', ':SearchViewSample', ':CoordinatorExample',':SimpleSearchView',':SimpleSearch'
